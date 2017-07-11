@@ -12,7 +12,7 @@
 
 1. Start new project
     ```
-    django-admin startproject --template=https://github/malj/django-webpack-starter-template.git --extensions=py,js {{ project_name }}
+    django-admin startproject --template=https://github.com/malj/django-webpack-starter-template/archive/master.zip --extension=py,js {{ project_name }}
     ```
 
 2. Install project requirements
