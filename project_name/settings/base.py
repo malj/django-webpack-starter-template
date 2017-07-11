@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'webpack_loader',
     'mailer',
+    'gtm',
     'cms',
     'menus',
     'treebeard',
