@@ -113,7 +113,7 @@ module.exports = function (env = {production: false, analysis: false}) {
         })
     },
     {
-        test: /\.scss$/,
+        test: /\.styl$/,
         // https://webpack.js.org/plugins/extract-text-webpack-plugin/#-extract
         use: ExtractTextPlugin.extract({
             // https://webpack.js.org/loaders/style-loader/
@@ -138,7 +138,7 @@ module.exports = function (env = {production: false, analysis: false}) {
 
                 // https://github.com/shama/stylus-loader#stylus-loader
                 {
-                    loader: 'sass-loader',
+                    loader: 'stylus-loader',
                     options: {
                         sourceMap: !env.production
                     }
