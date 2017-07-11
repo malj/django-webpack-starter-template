@@ -1,0 +1,55 @@
+{% load cms_tags sekizai_tags menu_tags static gtm_tags %}
+{% load render_bundle from webpack_loader %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% page_attribute 'page_title' %} | {{ request.site }}</title>
+    <meta name="description" content="{% page_attribute 'meta_description' %}">
+
+    {% block meta %}
+    <meta property="og:title"
+          content="{% page_attribute 'page_title' %} | {{ request.site }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image"
+          content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/promo_social.png' %}">
+    <meta property="og:description" content="{% page_attribute 'meta_description' %}">
+    {% endblock %}
+
+    <link rel="icon" type="image/png" sizes="32x32"
+          href="{% static 'images/favicons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16"
+          href="{% static 'images/favicons/favicon-16x16.png' %}">
+
+    {% render_block 'css' %}
+    {% render_bundle 'commons' 'css' %}
+    {% block styles %}{% render_bundle 'main' 'css' %}{% endblock %}
+</head>
+<body>
+    {% gtm %}
+    {% cms_toolbar %}
+
+    <header>
+        <nav>
+            <ul>{% show_menu %}</ul>
+            <ul>{% language_chooser %}</ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        &copy; {% now 'Y' %}
+    </footer>
+
+    {% render_block 'js' %}
+    {% render_bundle 'commons' 'js' %}
+    {% block scripts %}{% render_bundle 'main' 'js' %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,26 @@
+DEBUG = false
+
+
+/* Colors */
+
+dark-text-color = #333
+light-text-color = #666
+
+
+/* Fonts */
+
+title-font = serif
+text-font = sans-serif
+
+
+/* Media queries */
+
+minor-breakpoint = 640px
+major-breakpoint = 960px
+
+desktop = '(min-width: %s)' % major-breakpoint
+tablet = '(min-width: %s) and (max-width: %s)' % (minor-breakpoint (major-breakpoint - 1))
+mobile = '(max-width: %s)' % (minor-breakpoint - 1)
+nonmobile = '(min-width: %s)' % minor-breakpoint
+nondesktop = '(max-width: %s)' % (major-breakpoint - 1)
+nontablet = '%s, %s' % (desktop mobile)

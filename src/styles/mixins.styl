@@ -1,0 +1,72 @@
+size(width, height=width)
+    width width
+    height height
+
+max-size(width, height=width)
+    max-width width
+    max-height height
+
+min-size(width, height=width)
+    min-width width
+    min-height height
+
+margin-horizontal(left, right=left)
+    margin-left left
+    margin-right right
+
+margin-vertical(top, bottom=top)
+    margin-top top
+    margin-bottom bottom
+
+padding-horizontal(left, right=left)
+    padding-left left
+    padding-right right
+
+padding-vertical(top, bottom=top)
+    padding-top top
+    padding-bottom bottom
+
+side(top, right=top, bottom=top, left=right)
+    top top
+    right right
+    bottom bottom
+    left left
+
+side-horizontal(left, right=left)
+    left left
+    right right
+
+side-vertical(top, bottom=top)
+    top top
+    bottom bottom
+
+border-vertical()
+    border-top arguments
+    border-bottom arguments
+
+border-horizontal()
+    border-left arguments
+    border-right arguments
+
+overflow(type)
+    if type is ellipsis
+        overflow hidden
+        white-space nowrap
+        text-overflow ellipsis
+    else
+        overflow type
+
+absolutely-centered(top=0, right=0, bottom=0, left=0)
+    position absolute
+    side top right bottom left
+    margin auto
+
+placeholder()
+	&::-webkit-input-placeholder
+		{block}
+	&:-moz-placeholder
+		{block}
+	&::-moz-placeholder
+		{block}
+	&:-ms-input-placeholder
+		{block}

@@ -1,0 +1,18 @@
+# OS & IDE
+.DS_Store
+.idea/
+.vscode/
+.envrc
+.direnv/
+
+# Python & Django
+*.pyc
+*.pyo
+/static/  # only root
+/media/  # only root
+locale/
+settings/local.py
+
+# Node & NPM
+node_modules/
+npm-debug.log
