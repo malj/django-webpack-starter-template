@@ -38,7 +38,7 @@
 Use `manage.py` with `-p` or `--production` flag to apply production settings. Example:
 
 ```
-python manage.py -p migrate
+python manage.py -p runserver
 ```
 
 

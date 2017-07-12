@@ -12,7 +12,13 @@ module.exports = function (env = {production: false, analysis: false}) {
      * https://webpack.js.org/configuration/entry-context/#entry
      */
     config.entry = {
-        commons: ['babel-polyfill'],
+        commons: [
+            // https://necolas.github.io/normalize.css/
+            'normalize.css',
+
+            // https://babeljs.io/docs/usage/polyfill/
+            'babel-polyfill'
+        ],
         main: path.join(__dirname, 'src')
     }
 
@@ -72,8 +78,6 @@ module.exports = function (env = {production: false, analysis: false}) {
                             modules: false,
 
                             // https://babeljs.io/docs/plugins/preset-env/#optionsuse-built-ins
-                            // Required for enabling Babel polyfill:
-                            // https://babeljs.io/docs/usage/polyfill/
                             useBuiltIns: true,
 
                             // https://babeljs.io/docs/plugins/preset-env/#optionsdebug
@@ -82,7 +86,7 @@ module.exports = function (env = {production: false, analysis: false}) {
                     ],
                     plugins: [
                         // https://babeljs.io/docs/plugins/transform-object-rest-spread/
-                        'transform-object-rest-spread'
+                        ['transform-object-rest-spread', {useBuiltIns: true}]
                     ]
                 }
             }
