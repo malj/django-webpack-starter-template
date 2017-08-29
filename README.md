@@ -29,25 +29,23 @@
 
 4. Apply migrations & create superuser
     ```
-    python manage.py migrate
-    python manage.py createsuperuser
+    python manage.py (-p | -d) migrate
+    python manage.py (-p | -d) createsuperuser
     ```
 
-**Important!**
+## Environment
 
-Use `manage.py` with `-p` or `--production` flag to apply production settings. Example:
+Using `manage.py` script requires an environment flag:
 
-```
-python manage.py -p runserver
-```
-
+- `-d/--development`
+- `-p/--production`
 
 ## Usage
 
 Python dev server
 
 ```
-python manage.py runserver
+python manage.py (-p | -d) runserver
 ```
 
 Webpack dev server
