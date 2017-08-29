@@ -7,12 +7,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% page_attribute 'page_title' %} | {{ request.site }}</title>
+    <title>{% page_attribute 'page_title' %} | {{ request.site.name }}</title>
     <meta name="description" content="{% page_attribute 'meta_description' %}">
 
     {% block meta %}
     <meta property="og:title"
-          content="{% page_attribute 'page_title' %} | {{ request.site }}">
+          content="{% page_attribute 'page_title' %} | {{ request.site.name }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta property="og:image"

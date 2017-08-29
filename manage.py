@@ -4,10 +4,16 @@ from argparse import ArgumentParser, REMAINDER
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument(
+    environment = parser.add_mutually_exclusive_group(required=True)
+    environment.add_argument(
         '-p', '--production',
         action='store_true',
         help='use production settings'
+    )
+    environment.add_argument(
+        '-d', '--development',
+        action='store_true',
+        help='use development settings'
     )
     parser.add_argument(
         'subcommand',
@@ -18,8 +24,10 @@ if __name__ == "__main__":
 
     if env.production:
         settings_module = '{{ project_name }}.settings.production'
-    else:
+    elif env.development:
         settings_module = '{{ project_name }}.settings.development'
+    else:
+        raise EnvironmentError
 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 
