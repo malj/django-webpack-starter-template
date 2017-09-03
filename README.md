@@ -5,14 +5,14 @@
 - Python 3
 - Django 1.10
 - Node 6 & npm 3
-- PostgreSQL 9.5
+- PostgreSQL 9
 
 
 ## Install
 
-1. Start new project
+1. Start a new project
     ```
-    django-admin startproject --template=https://github.com/malj/django-webpack-starter-template/archive/master.zip --extension=py,js {{ project_name }}
+    django-admin startproject --template=https://git.io/v50DW --extension=py,js {{ project_name }}
     ```
 
 2. Install project requirements
@@ -21,7 +21,7 @@
     npm install
     ```
 
-3. Create PSQL database
+3. Create a PSQL database
     ```
     psql
     > CREATE DATABASE {{ project_name }} OWNER {{ user_name }};
