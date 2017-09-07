@@ -8,8 +8,7 @@
 # Python & Django
 *.pyc
 *.pyo
-/static/*
-!/static/dist/
+/static/
 /media/
 locale/
 local_settings.py

@@ -31,10 +31,12 @@ module.exports = function (env = {production: false, analysis: false}) {
         filename: '[name]-[hash].min.js',
 
         // https://webpack.js.org/configuration/output/#output-path
-        path: path.join(__dirname, 'static', 'dist'),
+        path: path.join(__dirname, 'dist', 'webpack_bundles'),
+    }
 
+    if (!env.production) {
         // https://webpack.js.org/configuration/output/#output-publicpath
-        publicPath: env.production ? '/dist/' : 'http://localhost:8080/'
+        config.output.publicPath = 'http://localhost:8080/'
     }
 
     /**
@@ -234,8 +236,8 @@ module.exports = function (env = {production: false, analysis: false}) {
 
         config.plugins.push(
             // https://github.com/johnagan/clean-webpack-plugin#clean-for-webpack
-            new CleanPlugin(['dist'], {
-                root: path.join(__dirname, 'static'),
+            new CleanPlugin(['webpack_bundles'], {
+                root: path.join(__dirname, 'dist'),
                 verbose: true
             }),
 

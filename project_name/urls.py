@@ -30,6 +30,7 @@ def patterns(*urls):
 urlpatterns = patterns(
     url(r'^admin/', admin.site.urls),
     url(r'^rosetta/', include('rosetta.urls')),
+    url('', include('cms.urls')),
 )
 
 if 'debug_toolbar' in settings.INSTALLED_APPS:
@@ -42,7 +43,3 @@ if settings.DEBUG:
     # Serve media files in development
     from django.conf.urls.static import static
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-urlpatterns += patterns(
-    url(r'^', include('cms.urls')),
-)

@@ -34,7 +34,7 @@
 
 ## Usage
 
-Python dev server
+Django dev server
 
 ```
 python manage.py runserver

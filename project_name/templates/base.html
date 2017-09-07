@@ -7,24 +7,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% page_attribute 'page_title' %} | {{ request.site.name }}</title>
-    <meta name="description" content="{% page_attribute 'meta_description' %}">
-
+    {% page_attribute 'page_title' as page_title %}
+    <title>{% if page_title and not current_page.is_home %}{{ page_title }} | {% endif %}{{ request.site.name }}</title>
+    {% page_attribute 'meta_description' as page_description %}
+    <meta name="description" content="{{ page_description }}">
     {% block meta %}
-    <meta property="og:title"
-          content="{% page_attribute 'page_title' %} | {{ request.site.name }}">
+    <meta property="og:title" content="{% if page_title and not current_page.is_home %}{{ page_title }} | {% endif %}{{ request.site.name }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <meta property="og:image"
-          content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/promo_social.png' %}">
-    <meta property="og:description" content="{% page_attribute 'meta_description' %}">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/promo_social.png' %}">
+    <meta property="og:description" content="{{ page_description }}">
     {% endblock %}
-
-    <link rel="icon" type="image/png" sizes="32x32"
-          href="{% static 'images/favicons/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16"
-          href="{% static 'images/favicons/favicon-16x16.png' %}">
-
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
     {% render_block 'css' %}
     {% render_bundle 'commons' 'css' %}
     {% block styles %}{% render_bundle 'main' 'css' %}{% endblock %}
