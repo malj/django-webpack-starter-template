@@ -7,12 +7,11 @@
 - Node 6 & npm 3
 - PostgreSQL 9
 
-
 ## Install
 
 1. Start a new project
     ```
-    django-admin startproject --template=https://git.io/v50DW --extension=py,js {{ project_name }}
+    django-admin startproject --template=https://git.io/v50DW {{ project_name }}
     ```
 
 2. Install project requirements
@@ -27,25 +26,18 @@
     > CREATE DATABASE {{ project_name }} OWNER {{ user_name }};
     ```
 
-4. Apply migrations & create superuser
+4. Apply migrations & create a superuser
     ```
-    python manage.py (-p | -d) migrate
-    python manage.py (-p | -d) createsuperuser
+    python manage.py migrate
+    python manage.py createsuperuser
     ```
-
-## Environment
-
-Using `manage.py` script requires an environment flag:
-
-- `-d/--development`
-- `-p/--production`
 
 ## Usage
 
 Python dev server
 
 ```
-python manage.py (-p | -d) runserver
+python manage.py runserver
 ```
 
 Webpack dev server

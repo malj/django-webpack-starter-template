@@ -8,10 +8,11 @@
 # Python & Django
 *.pyc
 *.pyo
-/static/
+/static/*
+!/static/dist/
 /media/
 locale/
-settings/local.py
+local_settings.py
 
 # Node & NPM
 node_modules/

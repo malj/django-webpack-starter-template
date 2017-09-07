@@ -1,35 +1,9 @@
 #!/usr/bin/env python
 import os
-from argparse import ArgumentParser, REMAINDER
+import sys
 
 if __name__ == "__main__":
-    parser = ArgumentParser()
-    environment = parser.add_mutually_exclusive_group(required=True)
-    environment.add_argument(
-        '-p', '--production',
-        action='store_true',
-        help='use production settings'
-    )
-    environment.add_argument(
-        '-d', '--development',
-        action='store_true',
-        help='use development settings'
-    )
-    parser.add_argument(
-        'subcommand',
-        nargs=REMAINDER,
-        help='pass subcommand to %s' % __file__
-    )
-    env = parser.parse_args()
-
-    if env.production:
-        settings_module = '{{ project_name }}.settings.production'
-    elif env.development:
-        settings_module = '{{ project_name }}.settings.development'
-    else:
-        raise EnvironmentError
-
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', '{{ project_name }}.settings')
 
     try:
         from django.core.management import execute_from_command_line
@@ -46,4 +20,5 @@ if __name__ == "__main__":
                 "forget to activate a virtual environment?"
             )
         raise
-    execute_from_command_line([__file__, *env.subcommand])
+
+    execute_from_command_line(sys.argv)

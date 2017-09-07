@@ -1,4 +1,11 @@
-from .base import *
+"""
+Shared development settings for {{ project_name }} project.
+
+1. Create a local settings module in this folder:  local_settings.py
+2. Include this module at the top:  import * from .dev_settings
+"""
+from .settings import *
+
 
 DEBUG = True
 
@@ -28,10 +35,7 @@ CACHES = {
     }
 }
 
+# Mail
+# https://docs.djangoproject.com/en/1.10/topics/email/#console-backend
 
-# Local settings
-
-try:
-    from .local import *
-except ImportError:
-    pass
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

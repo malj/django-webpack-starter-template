@@ -14,8 +14,9 @@ import os
 from getpass import getuser
 from django.utils.translation import ugettext_lazy as _
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.abspath(os.path.join(__file__, *[os.pardir] * 3))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,6 +24,11 @@ BASE_DIR = os.path.abspath(os.path.join(__file__, *[os.pardir] * 3))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '{{ secret_key }}'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -43,6 +49,7 @@ INSTALLED_APPS = [
     'menus',
     'treebeard',
     'sekizai',
+    'rosetta',
 ]
 
 MIDDLEWARE = [
@@ -140,6 +147,20 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Translations
+# http://django-rosetta.readthedocs.io/en/latest/settings.html#settings
+
+LOCALE_PATHS = [
+    (os.path.join(BASE_DIR, 'locale')),
+]
+
+ROSETTA_STORAGE_CLASS = 'rosetta.storage.CacheRosettaStorage'
+
+ROSETTA_UWSGI_AUTO_RELOAD = True
+
+ROSETTA_SHOW_AT_ADMIN_PANEL = True
+
+
 # Static & media files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
@@ -169,26 +190,27 @@ SITE_ID = 1
 
 
 # Email
-# https://docs.djangoproject.com/en/1.11/topics/email/
+# https://docs.djangoproject.com/en/1.10/topics/email/
 
 EMAIL_BACKEND = "mailer.backend.DbBackend"
 
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
 
-# EMAIL_HOST = ''
+# Cache
+# https://docs.djangoproject.com/en/1.10/ref/settings/#caches
 
-# EMAIL_HOST_USER = ''
-# EMAIL_HOST_PASSWORD = ''
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+        'KEY_PREFIX': '{{ project_name }}',
+    }
+}
 
-# DEFAULT_FROM_EMAIL = ''
-# NO_REPLY_EMAIL = ''
-# INFO_EMAIL = ''
-# SERVER_EMAIL = ''
 
-# ADMINS = [
+# Google Tag Manager
+# https://github.com/Lacrymology/django-google-tag-manager
 
-# ]
+GOOGLE_TAG_ID = None
 
 
 # Django CMS
@@ -200,3 +222,9 @@ CMS_TEMPLATES = (
     ('content.html', _('Content')),
     ('home.html', _('Home'))
 )
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
