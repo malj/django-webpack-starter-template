@@ -29,12 +29,8 @@ def patterns(*urls):
 
 urlpatterns = patterns(
     url(r'^admin/', admin.site.urls),
+    url(r'^rosetta/', include('rosetta.urls')),
 )
-
-if 'rosetta' in settings.INSTALLED_APPS:
-    urlpatterns += [
-        url(r'^rosetta/', include('rosetta.urls')),
-    ]
 
 if 'debug_toolbar' in settings.INSTALLED_APPS:
     import debug_toolbar
