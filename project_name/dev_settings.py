@@ -2,7 +2,7 @@
 Shared development settings for {{ project_name }} project.
 
 1. Create a local settings module in this folder:  local_settings.py
-2. Include this module at the top:  import * from .dev_settings
+2. Include this module at the top:  from .dev_settings import *
 """
 from .settings import *
 
