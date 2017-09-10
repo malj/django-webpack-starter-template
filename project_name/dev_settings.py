@@ -38,4 +38,4 @@ CACHES = {
 # Mail
 # https://docs.djangoproject.com/en/1.10/topics/email/#console-backend
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
