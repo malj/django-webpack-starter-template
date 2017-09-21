@@ -17,6 +17,7 @@ lockfile==0.12.2
 microsofttranslator==0.8
 polib==1.0.8
 psycopg2==2.7.1
+python-memcached==1.58
 pytz==2017.2
 requests==2.18.1
 six==1.10.0
