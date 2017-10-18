@@ -63,39 +63,40 @@ module.exports = function (env = {production: false, analysis: false}) {
     /**
      * Rules for transforming script imports
      */
+
+    // https://webpack.js.org/loaders/babel-loader/
+    const babelLoader = {
+        loader: 'babel-loader',
+        options: {
+            presets: [
+                // https://babeljs.io/docs/plugins/preset-env/
+                ['env', {
+                    // https://babeljs.io/docs/plugins/preset-env/#optionsmodules
+                    // Required for unused code elimination:
+                    // https://webpack.js.org/guides/tree-shaking/
+                    modules: false,
+
+                    // https://babeljs.io/docs/plugins/preset-env/#optionsuse-built-ins
+                    useBuiltIns: true,
+
+                    // https://babeljs.io/docs/plugins/preset-env/#optionsdebug
+                    debug: env.analysis
+                }]
+            ],
+            plugins: [
+                // https://babeljs.io/docs/plugins/transform-object-rest-spread/
+                ['transform-object-rest-spread', {
+                    // https://babeljs.io/docs/plugins/transform-object-rest-spread/#optionsuse-built-ins
+                    useBuiltIns: true
+                }]
+            ]
+        }
+    }
+
     config.module.rules.push({
         test: /\.js$/,
         exclude: /\/node_modules\//,
-        use: [
-            // https://webpack.js.org/loaders/babel-loader/
-            {
-                loader: 'babel-loader',
-                options: {
-                    presets: [
-                        // https://babeljs.io/docs/plugins/preset-env/
-                        ['env', {
-                            // https://babeljs.io/docs/plugins/preset-env/#optionsmodules
-                            // Required for unused code elimination:
-                            // https://webpack.js.org/guides/tree-shaking/
-                            modules: false,
-
-                            // https://babeljs.io/docs/plugins/preset-env/#optionsuse-built-ins
-                            useBuiltIns: true,
-
-                            // https://babeljs.io/docs/plugins/preset-env/#optionsdebug
-                            debug: env.analysis
-                        }]
-                    ],
-                    plugins: [
-                        // https://babeljs.io/docs/plugins/transform-object-rest-spread/
-                        ['transform-object-rest-spread', {
-                            // https://babeljs.io/docs/plugins/transform-object-rest-spread/#optionsuse-built-ins
-                            useBuiltIns: true
-                        }]
-                    ]
-                }
-            }
-        ]
+        use: [babelLoader]
     })
 
     /**
@@ -104,21 +105,38 @@ module.exports = function (env = {production: false, analysis: false}) {
     const ExtractTextPlugin = require('extract-text-webpack-plugin')
     const autoprefixer = require('autoprefixer')
 
+    // https://webpack.js.org/loaders/css-loader/
+    const cssLoader = {
+        loader: 'css-loader',
+        options: {
+            sourceMap: !env.production
+        }
+    }
+
+    // https://webpack.js.org/loaders/postcss-loader/
+    const postcssLoader = {
+        loader: 'postcss-loader',
+        options: {
+            sourceMap: !env.production,
+            plugins: () => [autoprefixer]
+        }
+    }
+
+    // https://github.com/shama/stylus-loader#stylus-loader
+    const stylusLoader = {
+        loader: 'stylus-loader',
+        options: {
+            sourceMap: !env.production
+        }
+    }
+
     config.module.rules.push({
         test: /\.css$/,
         // https://webpack.js.org/plugins/extract-text-webpack-plugin/#-extract
         use: ExtractTextPlugin.extract({
             // https://webpack.js.org/loaders/style-loader/
             fallback: 'style-loader',
-            use: [
-                // https://webpack.js.org/loaders/css-loader/
-                {
-                    loader: 'css-loader',
-                    options: {
-                        sourceMap: !env.production
-                    }
-                }
-            ]
+            use: [cssLoader]
         })
     },
     {
@@ -127,86 +145,36 @@ module.exports = function (env = {production: false, analysis: false}) {
         use: ExtractTextPlugin.extract({
             // https://webpack.js.org/loaders/style-loader/
             fallback: 'style-loader',
-            use: [
-                // https://webpack.js.org/loaders/css-loader/
-                {
-                    loader: 'css-loader',
-                    options: {
-                        sourceMap: !env.production
-                    }
-                },
-
-                // https://webpack.js.org/loaders/postcss-loader/
-                {
-                    loader: 'postcss-loader',
-                    options: {
-                        sourceMap: !env.production,
-                        plugins: () => [autoprefixer]
-                    }
-                },
-
-                // https://github.com/shama/stylus-loader#stylus-loader
-                {
-                    loader: 'stylus-loader',
-                    options: {
-                        sourceMap: !env.production
-                    }
-                }
-            ]
+            use: [cssLoader, postcssLoader, stylusLoader]
         })
     })
 
     /**
      * Rules for transforming file imports (images, fonts)
      */
+
+    // https://webpack.js.org/loaders/file-loader/
+    const fileLoader = {
+        loader: 'file-loader',
+        options: {
+            name: '[name]-[hash].[ext]'
+        }
+    }
+
+    // https://github.com/tcoopman/image-webpack-loader#image-loader
+    const imageLoader = {
+        loader: 'image-webpack-loader'
+    }
+
     config.module.rules.push({
         test: /\.(woff2?|ttf|eot|otf|svg)(\?.*)?$/i,
-        use: [
-            // https://webpack.js.org/loaders/file-loader/
-            {
-                loader: 'file-loader',
-                options: {
-                    name: '[name]-[hash].[ext]'
-                }
-            }
-        ]
+        use: [fileLoader]
+    },
+    {
+        test: /\.(png|jpe?g|gif|ico|svg)$/i,
+        exclude: /\/fonts\//,
+        use: env.production ? [fileLoader, imageLoader] : [fileLoader]
     })
-
-    if (env.production) {
-        config.module.rules.push({
-            test: /\.(png|jpe?g|gif|ico|svg)$/i,
-            exclude: /\/fonts\//,
-            use: [
-                // https://webpack.js.org/loaders/file-loader/
-                {
-                    loader: 'file-loader',
-                    options: {
-                        name: '[name]-[hash].[ext]'
-                    }
-                },
-
-                // https://github.com/tcoopman/image-webpack-loader#image-loader
-                {
-                    loader: 'image-webpack-loader'
-                }
-            ]
-        })
-    }
-    else {
-        config.module.rules.push({
-            test: /\.(png|jpe?g|gif|ico|svg)$/i,
-            exclude: /\/fonts\//,
-            use: [
-                // https://webpack.js.org/loaders/file-loader/
-                {
-                    loader: 'file-loader',
-                    options: {
-                        name: '[name]-[hash].[ext]'
-                    }
-                }
-            ]
-        })
-    }
 
     /**
      * Options for customizing Webpack build process

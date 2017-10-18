@@ -1,6 +1,6 @@
-import test from 'tape'
+import tape from 'tape'
 
-test('Test', assert => {
-    assert.fail('You should write some tests')
-    assert.end()
+tape('Test', test => {
+    test.fail('You should write some tests')
+    test.end()
 })

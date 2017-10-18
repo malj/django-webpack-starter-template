@@ -4,7 +4,7 @@
 
 - Python 3.5
 - Django 1.11
-- Node 8.5 & npm 5
+- Node 8.5
 - PostgreSQL 9.5
 
 ## Install
