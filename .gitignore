@@ -16,3 +16,7 @@ local_settings.py
 # Node & NPM
 node_modules/
 npm-debug.log
+
+# Build
+dist/
+webpack-stats.json

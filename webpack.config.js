@@ -31,7 +31,7 @@ module.exports = function (env = {production: false, analysis: false}) {
         filename: '[name]-[hash].min.js',
 
         // https://webpack.js.org/configuration/output/#output-path
-        path: path.join(__dirname, 'dist', 'webpack_bundles'),
+        path: path.join(__dirname, 'dist', 'webpack_bundles')
     }
 
     if (!env.production) {
@@ -88,7 +88,10 @@ module.exports = function (env = {production: false, analysis: false}) {
                     ],
                     plugins: [
                         // https://babeljs.io/docs/plugins/transform-object-rest-spread/
-                        ['transform-object-rest-spread', {useBuiltIns: true}]
+                        ['transform-object-rest-spread', {
+                            // https://babeljs.io/docs/plugins/transform-object-rest-spread/#optionsuse-built-ins
+                            useBuiltIns: true
+                        }]
                     ]
                 }
             }
@@ -167,25 +170,43 @@ module.exports = function (env = {production: false, analysis: false}) {
                 }
             }
         ]
-    },
-    {
-        test: /\.(png|jpe?g|gif|ico|svg)$/i,
-        exclude: /\/fonts\//,
-        use: [
-            // https://webpack.js.org/loaders/file-loader/
-            {
-                loader: 'file-loader',
-                options: {
-                    name: '[name]-[hash].[ext]'
-                }
-            },
-
-            // https://github.com/tcoopman/image-webpack-loader#image-loader
-            {
-                loader: 'image-webpack-loader'
-            }
-        ]
     })
+
+    if (env.production) {
+        config.module.rules.push({
+            test: /\.(png|jpe?g|gif|ico|svg)$/i,
+            exclude: /\/fonts\//,
+            use: [
+                // https://webpack.js.org/loaders/file-loader/
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name]-[hash].[ext]'
+                    }
+                },
+
+                // https://github.com/tcoopman/image-webpack-loader#image-loader
+                {
+                    loader: 'image-webpack-loader'
+                }
+            ]
+        })
+    }
+    else {
+        config.module.rules.push({
+            test: /\.(png|jpe?g|gif|ico|svg)$/i,
+            exclude: /\/fonts\//,
+            use: [
+                // https://webpack.js.org/loaders/file-loader/
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name]-[hash].[ext]'
+                    }
+                }
+            ]
+        })
+    }
 
     /**
      * Options for customizing Webpack build process

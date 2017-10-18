@@ -27,7 +27,7 @@ INTERNAL_IPS = [
 
 
 # Cache
-# https://docs.djangoproject.com/en/1.10/topics/cache/#dummy-caching-for-development
+# https://docs.djangoproject.com/en/1.11/topics/cache/#dummy-caching-for-development
 
 CACHES = {
     'default': {
@@ -36,6 +36,6 @@ CACHES = {
 }
 
 # Mail
-# https://docs.djangoproject.com/en/1.10/topics/email/#console-backend
+# https://docs.djangoproject.com/en/1.11/topics/email/#console-backend
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
