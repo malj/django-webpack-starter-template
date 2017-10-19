@@ -196,6 +196,26 @@ SITE_ID = 1
 EMAIL_BACKEND = "mailer.backend.DbBackend"
 
 
+# Logging - disable invalid HTTP_HOST header errors because of email spam
+# https://docs.djangoproject.com/en/1.11/topics/logging/#django-security
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'null': {
+            'class': 'logging.NullHandler',
+        }
+    },
+    'loggers': {
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        }
+    }
+}
+
+
 # Cache
 # https://docs.djangoproject.com/en/1.11/ref/settings/#caches
 
