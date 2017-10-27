@@ -20,3 +20,4 @@ npm-debug.log
 # Build
 dist/
 webpack-stats.json
+package-lock.json
