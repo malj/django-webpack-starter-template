@@ -1,6 +1,6 @@
 const path = require('path')
 
-module.exports = function (env = {production: false, analysis: false}) {
+module.exports = function (env = { production: false, analysis: false }) {
     /**
      * Webpack configuration
      * https://webpack.js.org/configuration/
@@ -139,15 +139,15 @@ module.exports = function (env = {production: false, analysis: false}) {
             use: [cssLoader]
         })
     },
-    {
-        test: /\.styl$/,
-        // https://webpack.js.org/plugins/extract-text-webpack-plugin/#-extract
-        use: ExtractTextPlugin.extract({
-            // https://webpack.js.org/loaders/style-loader/
-            fallback: 'style-loader',
-            use: [cssLoader, postcssLoader, stylusLoader]
+        {
+            test: /\.styl$/,
+            // https://webpack.js.org/plugins/extract-text-webpack-plugin/#-extract
+            use: ExtractTextPlugin.extract({
+                // https://webpack.js.org/loaders/style-loader/
+                fallback: 'style-loader',
+                use: [cssLoader, postcssLoader, stylusLoader]
+            })
         })
-    })
 
     /**
      * Rules for transforming file imports (images, fonts)
@@ -170,18 +170,18 @@ module.exports = function (env = {production: false, analysis: false}) {
         test: /\.(woff2?|ttf|eot|otf|svg)(\?.*)?$/i,
         use: [fileLoader]
     },
-    {
-        test: /\.(png|jpe?g|gif|ico|svg)$/i,
-        exclude: /\/fonts\//,
-        use: env.production ? [fileLoader, imageLoader] : [fileLoader]
-    })
+        {
+            test: /\.(png|jpe?g|gif|ico|svg)$/i,
+            exclude: /\/fonts\//,
+            use: env.production ? [fileLoader, imageLoader] : [fileLoader]
+        })
 
     /**
      * Options for customizing Webpack build process
      * https://webpack.js.org/configuration/plugins/
      */
     const webpack = require('webpack')
-    const {CommonsChunkPlugin} = webpack.optimize
+    const { CommonsChunkPlugin } = webpack.optimize
     const BundleTrackerPlugin = require('webpack-bundle-tracker')
 
     config.plugins = [
@@ -206,7 +206,7 @@ module.exports = function (env = {production: false, analysis: false}) {
     ]
 
     if (env.analysis) {
-        const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer')
+        const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
         config.plugins.push(
             // https://github.com/th0r/webpack-bundle-analyzer#webpack-bundle-analyzer
@@ -219,16 +219,13 @@ module.exports = function (env = {production: false, analysis: false}) {
          * Production plugins
          * https://webpack.js.org/guides/production/
          */
-        const CleanPlugin = require('clean-webpack-plugin')
+        const CleanupPlugin = require('webpack-cleanup-plugin')
         const CompressionPlugin = require('compression-webpack-plugin')
-        const {UglifyJsPlugin, ModuleConcatenationPlugin} = webpack.optimize
+        const { UglifyJsPlugin, ModuleConcatenationPlugin } = webpack.optimize
 
         config.plugins.push(
             // https://github.com/johnagan/clean-webpack-plugin#clean-for-webpack
-            new CleanPlugin(['webpack_bundles'], {
-                root: path.join(__dirname, 'dist'),
-                verbose: true
-            }),
+            new CleanupPlugin(),
 
             // https://webpack.js.org/plugins/compression-webpack-plugin/
             new CompressionPlugin(),
@@ -248,7 +245,7 @@ module.exports = function (env = {production: false, analysis: false}) {
          * Development plugins
          * https://webpack.js.org/guides/development/
          */
-        const {HotModuleReplacementPlugin} = webpack
+        const { HotModuleReplacementPlugin } = webpack
 
         config.plugins.push(
             // https://webpack.js.org/plugins/hot-module-replacement-plugin/

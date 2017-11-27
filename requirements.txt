@@ -1,11 +1,11 @@
-certifi==2017.7.27.1
+certifi==2017.11.5
 chardet==3.0.4
-Django==1.11.6
+Django==1.11.7
 django-classy-tags==0.8.0
 django-cms==3.4.5
-django-debug-toolbar==1.8
+django-debug-toolbar==1.9.1
 django-formtools==2.1
-django-google-tag-manager==0.0.2
+django-google-tag-manager==0.0.3
 django-mailer==1.2.2
 django-sekizai==0.10.0
 django-rosetta==0.7.13
@@ -16,9 +16,9 @@ idna==2.6
 lockfile==0.12.2
 microsofttranslator==0.8
 polib==1.0.8
-psycopg2==2.7.3.1
+psycopg2==2.7.3.2
 python-memcached==1.58
-pytz==2017.2
+pytz==2017.3
 requests==2.18.4
 six==1.11.0
 sqlparse==0.2.4
