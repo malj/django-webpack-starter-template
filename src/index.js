@@ -1,2 +1,2 @@
-import 'styles/index.styl'
-import 'scripts/example'
+import './styles/index.styl'
+import './scripts/example'
