@@ -137,7 +137,7 @@ module.exports = (env = 'development') => {
                     })
                 },
                 {
-                    test: /\.(png|jpe?g|gif|ico|svg|woff2?|ttf|eot|otf)/i,
+                    test: /\.(png|jpe?g|gif|ico|svg|woff2?|ttf|eot|otf)$/,
                     use: fileLoader
                 }
             ]
@@ -247,6 +247,9 @@ module.exports = (env = 'development') => {
     const analysisConfiguration = {
         ...productionConfiguration,
 
+        /**
+         * https://webpack.js.org/configuration/plugins/
+         */
         plugins: [
             ...productionConfiguration.plugins,
 
