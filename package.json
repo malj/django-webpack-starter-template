@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "analysis": "webpack --env analysis --progress --display-error-details",
-    "build": "webpack --env production --progress",
-    "start": "webpack-dev-server --progress",
+    "analysis": "NODE_ENV=analysis webpack --progress --display-error-details",
+    "build": "NODE_ENV=production webpack --progress",
+    "start": "webpack-dev-server",
     "test": "node --experimental-modules src/test"
   },
   "devDependencies": {
