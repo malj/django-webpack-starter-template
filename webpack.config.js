@@ -263,6 +263,7 @@ const analysisConfiguration = {
 switch (env) {
     case 'production':
         module.exports = productionConfiguration
+        break
 
     case 'development':
         livereload.createServer().watch(
@@ -270,9 +271,11 @@ switch (env) {
             path.join(__dirname, '**', 'templates', '**', '*.html')
         )
         module.exports = developmentConfiguration
+        break
 
     case 'analysis':
         module.exports = analysisConfiguration
+        break
 
     default:
         throw new TypeError(`Invalid Webpack environment ${env}`)
