@@ -37,3 +37,4 @@ django-filer
 django-modeltranslation
 djangocms-text-ckeditor
 django-el-pagination
+django-admin-sortable2
