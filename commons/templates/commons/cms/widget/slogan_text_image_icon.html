@@ -1,0 +1,15 @@
+{% load thumbnail %}
+
+<div class="col-sm-6">
+    <div class="feature feature-1">
+        <div class="pb32 pt32">
+            <div class="text-center">
+                {% if instance.icon %}<i class="{{ instance.icon }} icon icon-lg color-primary"></i>{% endif %}
+                {% if instance.title %}<h4>{{ instance.title }}</h4>{% endif %}
+            </div>
+            <p class="lead text-center">
+                {% if instance.content %}{{ instance.content }}{% endif %}
+            </p>
+        </div>
+    </div>
+</div>

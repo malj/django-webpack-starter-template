@@ -1,0 +1,15 @@
+{% load thumbnail cms_tags i18n %}
+
+<section class="page-title page-title-2 image-bg overlay parallax" style="min-height: 550px">
+    <div class="background-image-holder">
+        {% if instance.image %}<img alt="Background Image" class="background-image" src="{% thumbnail instance.image 1920x0 crop upscale %}">{% endif %}
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% if instance.title %}<h2 class="uppercase mb8">{{ instance.title }}</h2>{% endif %}
+                {% if instance.subtitle %}<p class="lead mb0">{{ instance.subtitle }}</p>{% endif %}
+            </div>
+        </div>
+    </div>
+</section>

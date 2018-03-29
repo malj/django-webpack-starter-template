@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # 'djangocms_admin_style',
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,10 +46,16 @@ INSTALLED_APPS = [
     'webpack_loader',
     'mailer',
     'gtm',
+    'filer',
     'cms',
+    'djangocms_text_ckeditor',
     'menus',
     'treebeard',
     'sekizai',
+    'adminsortable2',
+    'el_pagination',
+    'easy_thumbnails',
+    'commons',
     'rosetta',
 ]
 
@@ -86,6 +93,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'cms.context_processors.cms_settings',
                 'sekizai.context_processors.sekizai',
+                'commons.context_processors.commons_data',
             ],
         },
     },
@@ -244,6 +252,37 @@ CMS_TEMPLATES = (
     ('home.html', _('Home'))
 )
 
+# Django CMS ckeditor
+
+CKEDITOR_SETTINGS_NEWS = {
+    'toolbar_HTMLField': [
+        ['Undo', 'Redo'],
+        ['ShowBlocks'],
+        ['Format', ],
+        ['Bold', 'Italic', 'Underline', '-', 'Subscript',
+            'Superscript', '-', 'RemoveFormat'],
+    ]
+}
+
+THUMBNAIL_HIGH_RESOLUTION = True
+
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    #'easy_thumbnails.processors.scale_and_crop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
+
+# EASY THUMBNAILS
+THUMBNAIL_ALIASES = {
+    '': {
+        'small': {'size': (250, 250), 'crop': True, 'upscale': True},
+        'standard': {'size': (600, 600), 'crop': True, 'upscale': True},
+        'big': {'size': (900, 900), 'crop': False},
+        'share': {'size': (1200, 530), 'crop': False, 'upscale': False},
+    },
+}
 
 try:
     from .local_settings import *

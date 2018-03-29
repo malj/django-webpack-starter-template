@@ -1,94 +1,17 @@
-const webpack = require('webpack')
 const path = require('path')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const BundleTrackerPlugin = require('webpack-bundle-tracker')
-const CleanupPlugin = require('webpack-cleanup-plugin')
-const CompressionPlugin = require('compression-webpack-plugin')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const autoprefixer = require('autoprefixer')
-const livereload = require('livereload')
 
-const env = process.env.NODE_ENV || 'development'
-
-/**
- * https://webpack.js.org/loaders/babel-loader/
- */
-const babelLoader = {
-    loader: 'babel-loader',
-    options: {
-        presets: [
-            // https://babeljs.io/docs/plugins/preset-env/
-            ['env', {
-                modules: false,
-                useBuiltIns: true,
-                debug: env === 'analysis'
-            }]
-        ],
-        plugins: [
-            // https://babeljs.io/docs/plugins/transform-object-rest-spread/
-            ['transform-object-rest-spread', {
-                useBuiltIns: true
-            }]
-        ]
-    }
-}
-
-/**
- * https://webpack.js.org/loaders/style-loader/
- */
-const styleLoader = {
-    loader: 'style-loader'
-}
-
-/**
- * https://webpack.js.org/loaders/css-loader/
- */
-const cssLoader = {
-    loader: 'css-loader',
-    options: {
-        sourceMap: env === 'development'
-    }
-}
-
-/**
- * https://webpack.js.org/loaders/postcss-loader/
- */
-const postcssLoader = {
-    loader: 'postcss-loader',
-    options: {
-        sourceMap: env === 'development',
-        plugins: () => [autoprefixer]
-    }
-}
-
-/**
- * https://github.com/shama/stylus-loader
- */
-const stylusLoader = {
-    loader: 'stylus-loader',
-    options: {
-        sourceMap: env === 'development'
-    }
-}
-
-/**
- * https://webpack.js.org/loaders/file-loader/
- */
-const fileLoader = {
-    loader: 'file-loader',
-    options: {
-        name: '[name]-[hash].[ext]'
-    }
-}
-
-/**
- * https://webpack.js.org/configuration/
- */
-const baseConfiguration = {
+module.exports = function (env = {production: false, analysis: false}) {
     /**
+     * Webpack configuration
+     * https://webpack.js.org/configuration/
+     */
+    const config = {}
+
+    /**
+     * Entry points for Webpack bundles
      * https://webpack.js.org/configuration/entry-context/#entry
      */
-    entry: {
+    config.entry = {
         commons: [
             // https://necolas.github.io/normalize.css/
             'normalize.css',
@@ -97,186 +20,284 @@ const baseConfiguration = {
             'babel-polyfill'
         ],
         main: path.join(__dirname, 'src')
-    },
+    }
 
     /**
+     * Output options for Webpack bundles
      * https://webpack.js.org/configuration/output/
      */
-    output: {
+    config.output = {
+        // https://webpack.js.org/configuration/output/#output-filename
         filename: '[name]-[hash].min.js',
+
+        // https://webpack.js.org/configuration/output/#output-path
         path: path.join(__dirname, 'dist', 'webpack_bundles'),
-    },
+    }
+
+    if (!env.production) {
+        // https://webpack.js.org/configuration/output/#output-publicpath
+        config.output.publicPath = 'http://localhost:8080/'
+    }
 
     /**
+     * Options for resolving imports during Webpack build process
      * https://webpack.js.org/configuration/resolve/
      */
-    resolve: {
-        modules: [__dirname, 'node_modules']
-    },
+    config.resolve = {
+        // https://webpack.js.org/configuration/resolve/#resolve-modules
+        modules: [path.join(__dirname, 'src'), 'node_modules']
+    }
 
     /**
+     * Options for transforming imported modules during Webpack build process
      * https://webpack.js.org/configuration/module/
      */
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                use: babelLoader
-            },
-            {
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: styleLoader,
-                    use: cssLoader
-                })
-            },
-            {
-                test: /\.styl$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: styleLoader,
-                    use: [cssLoader, postcssLoader, stylusLoader]
-                })
-            },
-            {
-                test: /\.(png|jpe?g|gif|ico|svg|woff2?|ttf|eot|otf)$/,
-                use: fileLoader
-            }
-        ]
-    },
+    config.module = {
+        // https://webpack.js.org/configuration/module/#module-noparse
+        noParse: [/\.min\.w+$/],
+
+        // https://webpack.js.org/configuration/module/#module-rules
+        rules: []
+    }
 
     /**
+     * Rules for transforming script imports
+     */
+    config.module.rules.push({
+        test: /\.js$/,
+        exclude: /\/node_modules\//,
+        use: [
+            // https://webpack.js.org/loaders/babel-loader/
+            {
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                        // https://babeljs.io/docs/plugins/preset-env/
+                        ['env', {
+                            // https://babeljs.io/docs/plugins/preset-env/#optionsmodules
+                            // Required for unused code elimination:
+                            // https://webpack.js.org/guides/tree-shaking/
+                            modules: false,
+
+                            // https://babeljs.io/docs/plugins/preset-env/#optionsuse-built-ins
+                            useBuiltIns: true,
+
+                            // https://babeljs.io/docs/plugins/preset-env/#optionsdebug
+                            debug: env.analysis
+                        }]
+                    ],
+                    plugins: [
+                        // https://babeljs.io/docs/plugins/transform-object-rest-spread/
+                        ['transform-object-rest-spread', {useBuiltIns: true}]
+                    ]
+                }
+            }
+        ]
+    })
+
+    /**
+     * Rules for transforming style imports
+     */
+    const ExtractTextPlugin = require('extract-text-webpack-plugin')
+    const autoprefixer = require('autoprefixer')
+
+    config.module.rules.push(
+        {
+            test: /\.css$/,
+            // https://webpack.js.org/plugins/extract-text-webpack-plugin/#-extract
+            use: ExtractTextPlugin.extract({
+                // https://webpack.js.org/loaders/style-loader/
+                fallback: 'style-loader',
+                use: [
+                    // https://webpack.js.org/loaders/css-loader/
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: !env.production
+                        }
+                    }
+                ]
+            })
+        },
+        {
+            test: /\.styl$/,
+            // https://webpack.js.org/plugins/extract-text-webpack-plugin/#-extract
+            use: ExtractTextPlugin.extract({
+                // https://webpack.js.org/loaders/style-loader/
+                fallback: 'style-loader',
+                use: [
+                    // https://webpack.js.org/loaders/css-loader/
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: !env.production
+                        }
+                    },
+
+                    // https://webpack.js.org/loaders/postcss-loader/
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: !env.production,
+                            plugins: () => [autoprefixer]
+                        }
+                    },
+
+                    // https://github.com/shama/stylus-loader#stylus-loader
+                    {
+                        loader: 'stylus-loader',
+                        options: {
+                            sourceMap: !env.production
+                        }
+                    }
+                ]
+            })
+        }
+    )
+
+    /**
+     * Rules for transforming file imports (images, fonts)
+     */
+    config.module.rules.push(
+        {
+            test: /\.(woff2?|ttf|eot|otf|svg)(\?.*)?$/i,
+            use: [
+                // https://webpack.js.org/loaders/file-loader/
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name]-[hash].[ext]'
+                    }
+                }
+            ]
+        },
+        {
+            test: /\.(png|jpe?g|gif|ico|svg)$/i,
+            exclude: /\/fonts\//,
+            use: [
+                // https://webpack.js.org/loaders/file-loader/
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name]-[hash].[ext]'
+                    }
+                },
+
+                ...(env.production ? [
+                    // https://github.com/tcoopman/image-webpack-loader#image-loader
+                    {
+                        loader: 'image-webpack-loader'
+                    }
+                ] : [])
+            ]
+        }
+    )
+
+    /**
+     * Options for customizing Webpack build process
      * https://webpack.js.org/configuration/plugins/
      */
-    plugins: [
-        // https://webpack.js.org/plugins/commons-chunk-plugin/
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'commons',
-            filename: 'commons-[hash].min.js'
+    const webpack = require('webpack')
+    const {CommonsChunkPlugin} = webpack.optimize
+    const BundleTrackerPlugin = require('webpack-bundle-tracker')
+
+    config.plugins = [
+        // https://github.com/ezhome/webpack-bundle-tracker#webpack-bundle-tracker
+        // Required for Django webpack loader:
+        // https://github.com/ezhome/django-webpack-loader#assumptions
+        new BundleTrackerPlugin({
+            indent: '  '
         }),
 
         // https://webpack.js.org/plugins/extract-text-webpack-plugin/
         new ExtractTextPlugin({
             filename: '[name]-[hash].css',
-            disable: env === 'development'
+            disable: !env.production
         }),
 
-        // https://github.com/ezhome/webpack-bundle-tracker#webpack-bundle-tracker
-        // Required for Django Webpack Loader: https://github.com/ezhome/django-webpack-loader#assumptions
-        new BundleTrackerPlugin({
-            indent: '  '
+        // https://webpack.js.org/plugins/commons-chunk-plugin/
+        new CommonsChunkPlugin({
+            name: 'commons',
+            filename: 'commons-[hash].min.js'
         })
     ]
-}
 
-/**
- * https://webpack.js.org/guides/development/
- */
-const developmentConfiguration = {
-    ...baseConfiguration,
+    if (env.analysis) {
+        const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer')
 
-    /**
-     * https://webpack.js.org/configuration/output/
-     */
-    output: {
-        ...baseConfiguration.output,
-        publicPath: 'http://localhost:8080/',
-        pathinfo: true
-    },
-
-    /**
-     * https://webpack.js.org/configuration/plugins/
-     */
-    plugins: [
-        ...baseConfiguration.plugins,
-
-        // https://webpack.js.org/plugins/hot-module-replacement-plugin/
-        new webpack.HotModuleReplacementPlugin()
-    ],
-
-    /**
-     * https://webpack.js.org/configuration/devtool/
-     */
-    devtool: 'cheap-module-eval-source-map',
-
-    /**
-     * https://webpack.js.org/configuration/dev-server/
-     */
-    devServer: {
-        hot: true,
-        contentBase: false,
-        headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:8000'
-        }
-    }
-}
-
-/**
- * https://webpack.js.org/guides/production/
- */
-const productionConfiguration = {
-    ...baseConfiguration,
-
-    /**
-     * https://webpack.js.org/configuration/plugins/
-     */
-    plugins: [
-        ...baseConfiguration.plugins,
-
-        // https://webpack.js.org/plugins/define-plugin/
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
-        }),
-
-        // https://webpack.js.org/plugins/uglifyjs-webpack-plugin/
-        new webpack.optimize.UglifyJsPlugin({
-            comments: false
-        }),
-
-        // https://webpack.js.org/plugins/module-concatenation-plugin/
-        new webpack.optimize.ModuleConcatenationPlugin(),
-
-        // https://webpack.js.org/plugins/compression-webpack-plugin/
-        new CompressionPlugin(),
-
-        // https://github.com/gpbl/webpack-cleanup-plugin
-        new CleanupPlugin()
-    ]
-}
-
-const analysisConfiguration = {
-    ...productionConfiguration,
-
-    /**
-     * https://webpack.js.org/configuration/plugins/
-     */
-    plugins: [
-        ...productionConfiguration.plugins,
-
-        // https://github.com/webpack-contrib/webpack-bundle-analyzer
-        new BundleAnalyzerPlugin()
-    ]
-}
-
-
-switch (env) {
-    case 'production':
-        module.exports = productionConfiguration
-        break
-
-    case 'development':
-        livereload.createServer().watch(
-            // Django templates
-            path.join(__dirname, '**', 'templates', '**', '*.html')
+        config.plugins.push(
+            // https://github.com/th0r/webpack-bundle-analyzer#webpack-bundle-analyzer
+            new BundleAnalyzerPlugin()
         )
-        module.exports = developmentConfiguration
-        break
+    }
 
-    case 'analysis':
-        module.exports = analysisConfiguration
-        break
+    if (env.production) {
+        /**
+         * Production plugins
+         * https://webpack.js.org/guides/production/
+         */
+        const CleanPlugin = require('clean-webpack-plugin')
+        const CompressionPlugin = require('compression-webpack-plugin')
+        const {UglifyJsPlugin, ModuleConcatenationPlugin} = webpack.optimize
 
-    default:
-        throw new TypeError(`Invalid Webpack environment ${env}`)
+        config.plugins.push(
+            // https://github.com/johnagan/clean-webpack-plugin#clean-for-webpack
+            new CleanPlugin(['webpack_bundles'], {
+                root: path.join(__dirname, 'dist'),
+                verbose: true
+            }),
+
+            // https://webpack.js.org/plugins/compression-webpack-plugin/
+            new CompressionPlugin(),
+
+            // https://webpack.js.org/plugins/uglifyjs-webpack-plugin/
+            new UglifyJsPlugin({
+                comments: false
+            }),
+
+            // New in Webpack 3 (scope hoisting), yet undocumented
+            // https://medium.com/webpack/webpack-3-official-release-15fd2dd8f07b#c11e
+            new ModuleConcatenationPlugin()
+        )
+    }
+    else {
+        /**
+         * Development plugins
+         * https://webpack.js.org/guides/development/
+         */
+        const {HotModuleReplacementPlugin} = webpack
+
+        config.plugins.push(
+            // https://webpack.js.org/plugins/hot-module-replacement-plugin/
+            new HotModuleReplacementPlugin()
+        )
+
+        /**
+         * Options for Webpack dev server
+         * https://webpack.js.org/configuration/dev-server/
+         */
+        config.devServer = {
+            // https://webpack.js.org/configuration/dev-server/#devserver-hot
+            hot: true,
+
+            // https://webpack.js.org/configuration/dev-server/#devserver-contentbase
+            contentBase: false,
+
+            // https://webpack.js.org/configuration/dev-server/#devserver-headers-
+            headers: {
+                'Access-Control-Allow-Origin': 'http://localhost:8000'
+            }
+        }
+
+        /**
+         * Livereload setup for Django templates
+         * https://github.com/napcs/node-livereload#node-livereload
+         */
+        const livereload = require('livereload')
+        const templates = path.join(__dirname, '**', 'templates', '*.html')
+
+        livereload.createServer().watch(templates)
+    }
+
+    return config
 }

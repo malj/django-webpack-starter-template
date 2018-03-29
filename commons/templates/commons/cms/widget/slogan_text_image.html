@@ -1,0 +1,14 @@
+{% load thumbnail %}
+
+<div class="col-md-6">
+    <div class="image-tile outer-title text-center">
+        {% if instance.image %}<img alt="Pic" src="{% thumbnail instance.image 500x350 crop upscale %}">{% endif %}
+        <div class="title mb16">
+            {% if instance.title %}<h5 class="uppercase mb0">{{ instance.title }}</h5>{% endif %}
+            {% if instance.subtitle %}<span>{{ instance.subtitle }}</span>{% endif %}
+        </div>
+        <p class="mb0">
+            {% if instance.content %}{{ instance.content }}{% endif %}
+        </p>
+    </div>
+</div>

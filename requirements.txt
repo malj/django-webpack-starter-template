@@ -32,3 +32,8 @@ sqlparse==0.2.4
 urllib3==1.22
 wrapt==1.10.11
 Pillow
+easy-thumbnails
+django-filer
+django-modeltranslation
+djangocms-text-ckeditor
+django-el-pagination

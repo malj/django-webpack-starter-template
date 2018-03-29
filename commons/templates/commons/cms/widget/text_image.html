@@ -1,0 +1,38 @@
+{% load thumbnail %}
+
+{% if not instance.alignment %}
+    <div class="col-md-6 content">
+        {% if instance.title %}<h3>{{ instance.title }}</h3>{% endif %}
+        {% if instance.subtitle %}<p class="mb20 uppercase">{{ instance.subtitle }}</p>{% endif %}
+        {% if instance.content %}<p class="mb0">{{ instance.content|linebreaks }}</p>{% endif %}
+    </div>
+    <div class="col-md-6 image">
+        <div class="background-image-holder">
+            {% if instance.image %}<img alt="image" class="background-image" src="{% thumbnail instance.image 900x0 crop upscale %}">{% endif %}
+        </div>
+    </div>
+{% endif %}
+{% if instance.alignment == CMS_ALIGNEMENT_LEFT %}
+    <div class="col-md-6 image">
+        <div class="background-image-holder">
+            {% if instance.image %}<img alt="image" class="background-image" src="{% thumbnail instance.image 900x0 crop upscale %}">{% endif %}
+        </div>
+    </div>
+    <div class="col-md-6 content">
+        {% if instance.title %}<h3>{{ instance.title }}</h3>{% endif %}
+        {% if instance.subtitle %}<p class="mb20 uppercase">{{ instance.subtitle }}</p>{% endif %}
+        {% if instance.content %}<p class="mb0">{{ instance.content|linebreaks }}</p>{% endif %}
+    </div>
+{% endif %}
+{% if instance.alignment == CMS_ALIGNEMENT_RIGHT %}
+    <div class="col-md-6 content">
+        {% if instance.title %}<h3>{{ instance.title }}</h3>{% endif %}
+        {% if instance.subtitle %}<p class="mb20 uppercase">{{ instance.subtitle }}</p>{% endif %}
+        {% if instance.content %}<p class="mb0">{{ instance.content|linebreaks }}</p>{% endif %}
+    </div>
+    <div class="col-md-6 image">
+        <div class="background-image-holder">
+            {% if instance.image %}<img alt="image" class="background-image" src="{% thumbnail instance.image 900x0 crop upscale %}">{% endif %}
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,7 @@
+<div class="col-sm-4 text-center">
+    <div class="feature boxed cast-shadow-light">
+        {% if instance.title %}<h4>"{{ instance.title }}"</h4>{% endif %}
+        {% if instance.content %}<p>{{ instance.content|linebreaks }}</p>{% endif %}
+        {% if instance.subtitle %}<span><strong>{{ instance.subtitle }}</strong></span>{% endif %}
+    </div>
+</div>

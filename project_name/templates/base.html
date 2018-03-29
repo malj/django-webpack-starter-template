@@ -1,4 +1,4 @@
-{% load cms_tags sekizai_tags menu_tags static gtm_tags %}
+{% load cms_tags sekizai_tags menu_tags static gtm_tags common_tags %}
 {% load render_bundle from webpack_loader %}
 
 <!DOCTYPE html>
@@ -7,17 +7,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {% page_attribute 'page_title' as page_title %}
-    <title>{% if page_title and not current_page.is_home %}{{ page_title }} | {% endif %}{{ request.site.name }}</title>
-    {% page_attribute 'meta_description' as page_description %}
-    <meta name="description" content="{{ page_description }}">
-    {% block meta %}
-    <meta property="og:title" content="{% if page_title and not current_page.is_home %}{{ page_title }} | {% endif %}{{ request.site.name }}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/promo_social.png' %}">
-    <meta property="og:description" content="{{ page_description }}">
+
+    {% block title %}
+        {% page_attribute 'page_title' as page_title %}
+        <title>{% if page_title and not current_page.is_home %}{{ page_title }}
+            | {% endif %}{{ request.site.name }}</title>
+        {% page_attribute 'meta_description' as page_description %}
+        <meta name="description" content="{{ page_description }}">
     {% endblock %}
+    {% block meta %}
+        <meta property="og:title" content="
+            {% if page_title and not current_page.is_home %}{{ page_title }} | {% endif %}{{ request.site.name }}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ request.build_absolute_uri }}">
+        {% if app_data.share_image %}
+            {% with 'share' as share_thumbnail_alias %}
+                <meta property="og:image"
+                      content="
+                      {{ request|get_host_url }}{{ app_data.share_image|thumbnail_url:share_thumbnail_alias }}"/>
+                <meta property="og:image:height"
+                      content="{{ app_data.share_image|get_image_size:share_thumbnail_alias|get_item:'height' }}"/>
+                <meta property="og:image:width"
+                      content="{{ app_data.share_image|get_image_size:share_thumbnail_alias|get_item:'width' }}"/>
+            {% endwith %}
+        {% endif %}
+        <meta property="og:description" content="{{ page_description }}">
+    {% endblock %}
+
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
     {% render_block 'css' %}

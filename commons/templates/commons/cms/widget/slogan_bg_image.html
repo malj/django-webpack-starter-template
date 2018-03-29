@@ -1,0 +1,16 @@
+{% load thumbnail %}
+
+<section class="pt120 pb120 image-bg overlay overlay-heavy parallax">
+    <div class="background-image-holder">
+        {% if instance.image %}<img alt="Background" class="background-image" src="{% thumbnail instance.image 1920x0 crop upscale %}">{% endif %}
+    </div>
+    <div class="container">
+        <div class="row v-align-children" style="min-height: 280px;">
+            <div class="col-sm-4 mb-xs-80">
+            </div>
+            <div class="col-sm-8 mb-xs-80 text-right">
+                {% if instance.title %}<h2 class="mb16">{{ instance.title }}</h2>{% endif %}
+            </div>
+        </div>
+    </div>
+</section>

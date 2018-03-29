@@ -1,0 +1,16 @@
+{% load thumbnail cms_tags i18n %}
+
+<li class="overlay image-bg">
+    <div class="background-image-holder">
+        {% if instance.image %}<img alt="image" class="background-image" src="{% thumbnail instance.image 1920x0 crop upscale %}">{% endif %}
+    </div>
+    <div class="container v-align-transform">
+        <div class="row">
+            <div class="col-md-6 col-sm-8">
+                {% if instance.title %}<h1 class="mb40 mb-xs-16 large">{{ instance.title }}</h1>{% endif %}
+                {% if instance.content %}<h6 class="uppercase mb40">{{ instance.content }}</h6>{% endif %}
+                <a class="btn btn-lg" href="{% page_url 'contact' %}">{% trans 'Kontaktirajte nas' %}</a>
+            </div>
+        </div>
+    </div>
+</li>
