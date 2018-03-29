@@ -5,7 +5,7 @@ from cms.models import CMSPlugin
 from djangocms_text_ckeditor.fields import HTMLField
 from filer.fields.image import FilerImageField
 
-from commons.settings import cms_plugin_text_image_alignement, cms_plugin_icons
+from commons.settings import cms_plugin_text_image_alignement
 
 
 class WidgetPlugin(CMSPlugin):
@@ -33,7 +33,6 @@ class Settings(models.Model):
     mobile = models.CharField(_('Mobile'), max_length=255, blank=True, null=True)
     email = models.EmailField(_('Email'), max_length=255, blank=True, null=True)
     share_image = FilerImageField(verbose_name=_("Share image"), blank=True, null=True)
-    newsletter_active = models.BooleanField(_("Newsletter active"), default=False)
 
     def __str__(self):
         return '%s' % _('Settings')
