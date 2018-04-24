@@ -31,6 +31,8 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "image-webpack-loader": "^4.2.0",
     "normalize.css": "^7.0.0"
   }
 }
