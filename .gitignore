@@ -18,6 +18,6 @@ node_modules/
 npm-debug.log
 
 # Build
-dist/
-webpack-stats.json
-package-lock.json
+#dist/
+#webpack-stats.json
+#package-lock.json
