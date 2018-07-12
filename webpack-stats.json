@@ -1,0 +1,25 @@
+{
+    "status": "done",
+    "chunks": {
+        "main": [
+            {
+                "name": "main-396b3c8465dd25c06aca.min.css",
+                "path": "/Users/vladan/Projects/Django/django-webpack-starter-template/dist/webpack_bundles/main-396b3c8465dd25c06aca.min.css"
+            },
+            {
+                "name": "main-396b3c8465dd25c06aca.min.js",
+                "path": "/Users/vladan/Projects/Django/django-webpack-starter-template/dist/webpack_bundles/main-396b3c8465dd25c06aca.min.js"
+            }
+        ],
+        "commons": [
+            {
+                "name": "commons-396b3c8465dd25c06aca.min.css",
+                "path": "/Users/vladan/Projects/Django/django-webpack-starter-template/dist/webpack_bundles/commons-396b3c8465dd25c06aca.min.css"
+            },
+            {
+                "name": "commons-396b3c8465dd25c06aca.min.js",
+                "path": "/Users/vladan/Projects/Django/django-webpack-starter-template/dist/webpack_bundles/commons-396b3c8465dd25c06aca.min.js"
+            }
+        ]
+    }
+}
