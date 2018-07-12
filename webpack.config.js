@@ -7,6 +7,7 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const CleanupPlugin = require('webpack-cleanup-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const { HotModuleReplacementPlugin } = require('webpack')
+const livereload = require('livereload')
 
 module.exports = (env = 'development') => {
 
@@ -165,6 +166,10 @@ module.exports = (env = 'development') => {
             return analysisConfig
 
         default:
+            livereload.createServer().watch(
+                // Django templates
+                path.join(__dirname, '**', 'templates', '**', '*.html')
+            )
             return developmentConfig
     }
 }
