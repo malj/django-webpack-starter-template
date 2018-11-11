@@ -1,24 +1,24 @@
 {
   "status": "done",
-  "publicPath": "http://localhost:8080/",
   "chunks": {
     "commons": [
       {
-        "name": "commons-33dd4b842e066270d5dd.min.js",
-        "publicPath": "http://localhost:8080/commons-33dd4b842e066270d5dd.min.js",
-        "path": "/Users/vladan/Projects/Django/django-webpack-starter-template/dist/webpack_bundles/commons-33dd4b842e066270d5dd.min.js"
+        "name": "commons-98d963d4f8ea886f096f.min.css",
+        "path": "/Users/vladan/Projects/Django/django-webpack-starter-template/dist/webpack_bundles/commons-98d963d4f8ea886f096f.min.css"
+      },
+      {
+        "name": "commons-98d963d4f8ea886f096f.min.js",
+        "path": "/Users/vladan/Projects/Django/django-webpack-starter-template/dist/webpack_bundles/commons-98d963d4f8ea886f096f.min.js"
       }
     ],
     "main": [
       {
-        "name": "main-33dd4b842e066270d5dd.min.js",
-        "publicPath": "http://localhost:8080/main-33dd4b842e066270d5dd.min.js",
-        "path": "/Users/vladan/Projects/Django/django-webpack-starter-template/dist/webpack_bundles/main-33dd4b842e066270d5dd.min.js"
+        "name": "main-98d963d4f8ea886f096f.min.css",
+        "path": "/Users/vladan/Projects/Django/django-webpack-starter-template/dist/webpack_bundles/main-98d963d4f8ea886f096f.min.css"
       },
       {
-        "name": "main.cbc3593398daf4cff432.hot-update.js",
-        "publicPath": "http://localhost:8080/main.cbc3593398daf4cff432.hot-update.js",
-        "path": "/Users/vladan/Projects/Django/django-webpack-starter-template/dist/webpack_bundles/main.cbc3593398daf4cff432.hot-update.js"
+        "name": "main-98d963d4f8ea886f096f.min.js",
+        "path": "/Users/vladan/Projects/Django/django-webpack-starter-template/dist/webpack_bundles/main-98d963d4f8ea886f096f.min.js"
       }
     ]
   }
